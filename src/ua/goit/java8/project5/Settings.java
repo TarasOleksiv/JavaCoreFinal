@@ -8,6 +8,7 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -25,8 +26,8 @@ import java.io.IOException;
  * Created by t.oleksiv on 27/09/2017.
  */
 public class Settings {
-    private static final int WIDTH = 400;
-    private static final int HEIGHT = 400;
+    private static final int WIDTH = 500;
+    private static final int HEIGHT = 200;
 
     private SettingsSet settingsSet;
     private FileUtils fileUtils = new FileUtils();
@@ -65,6 +66,8 @@ public class Settings {
 
         CheckBox cbShowTime = new CheckBox("Show Time Execution");
 
+        Label lblPathToCache = new Label("Path to cache");
+
         TextField txtPathToCache = new TextField("");
         txtPathToCache.setPrefWidth(300);
 
@@ -91,7 +94,7 @@ public class Settings {
         hbox3.setAlignment(Pos.CENTER_LEFT);
         hbox3.setPrefWidth(WIDTH);
         hbox3.setPrefHeight(HEIGHT/5);
-        hbox3.getChildren().add(txtPathToCache);
+        hbox3.getChildren().addAll(lblPathToCache,txtPathToCache);
         grid.add(hbox3, 0, 2,2,1);
 
         // контейнер для  чекбокса showTime

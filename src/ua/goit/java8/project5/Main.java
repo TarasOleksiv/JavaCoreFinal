@@ -27,7 +27,7 @@ public class Main extends Application {
     private static final int HEIGHT = 275;
     private GridPane grid = new GridPane();     //в якості layout використовуєм GridPane для зручності вирівнювання
     public static final String PATH_TO_SETTINGS = "settings/settings.ini";
-    private static SettingsSet settingsSet = new SettingsSet();
+    private static SettingsSet settingsSet;
 
     public static void main(String[] args) {
         String json = null;
@@ -35,10 +35,12 @@ public class Main extends Application {
             json = FileUtils.readFromFile(PATH_TO_SETTINGS);
             settingsSet = JSON.parseObject(json,SettingsSet.class);
         } catch (FileNotFoundException e){
+            settingsSet = new SettingsSet();
             System.out.println("The system cannot find the file specified");
         } catch (IOException e) {
             e.printStackTrace();
         }
+
         launch();
     }
 

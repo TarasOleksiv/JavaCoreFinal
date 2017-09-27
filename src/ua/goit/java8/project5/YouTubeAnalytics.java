@@ -1,12 +1,14 @@
 package ua.goit.java8.project5;
 
 import com.alibaba.fastjson.JSON;
+import javafx.collections.FXCollections;
 import javafx.event.Event;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Font;
@@ -52,26 +54,46 @@ public class YouTubeAnalytics {
 
         // кнопка Back
         Button back = new Button("Back");
+        back.setPrefWidth(100);
         back.setOnMouseClicked(event -> {
             // закриваєм активне вікно
             ((Node)(event.getSource())).getScene().getWindow().hide();
         });
+
+        // кнопка Execute
+        Button execute = new Button("Execute");
+        execute.setPrefWidth(100);
+        execute.setOnMouseClicked(event -> {
+
+        });
+
+        // листбокс для вибору дій
+        ChoiceBox choiceBoxAction = new ChoiceBox();
+        choiceBoxAction.setItems(FXCollections.observableArrayList(
+                "Отобразить глобальную информацию о канале",
+                "Сравнить глобальную информацию о каналах",
+                "Сортировать каналы по их данным",
+                "Медиа резонанс",
+                "Сравнить Медиа резонанс",
+                "Сортировать по Медиа резонансу")
+        );
 
         // назва вікна
         Text scenetitle = new Text("YouTube Analytics");
         scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
         grid.add(scenetitle, 0, 0, 1, 1);
 
-        // назва вікна
+        // назва дії
         Text actionTitle = new Text("Choose action:");
         actionTitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 14));
+        //grid.add(actionTitle, 0, 1, 1, 1);
+
 
         // контейнер для  назви секції дій
         HBox hbox2 = new HBox(10);
         hbox2.setAlignment(Pos.CENTER_LEFT);
         hbox2.setPrefWidth(WIDTH/4);
-        hbox2.setPrefHeight(HEIGHT/5);
-        // додаєм сюди елемент
+        hbox2.setPrefHeight(HEIGHT/30);
         hbox2.getChildren().add(actionTitle);
         grid.add(hbox2, 0, 1);
 
@@ -79,34 +101,40 @@ public class YouTubeAnalytics {
         // контейнер для  вибору дії
         HBox hbox3 = new HBox(10);
         hbox3.setAlignment(Pos.CENTER_LEFT);
-        hbox3.setPrefWidth(WIDTH/4);
-        hbox3.setPrefHeight(HEIGHT/5);
-        // додаєм сюди елемент
+        hbox3.setPrefWidth(WIDTH/3);
+        hbox3.setPrefHeight(HEIGHT/20);
+        hbox3.getChildren().add(choiceBoxAction);
         grid.add(hbox3, 0, 2);
 
         // контейнер для  кнопки Execute
         HBox hbox4 = new HBox(10);
         hbox4.setAlignment(Pos.CENTER_LEFT);
         hbox4.setPrefWidth(WIDTH/4);
-        hbox4.setPrefHeight(HEIGHT/5);
-        // додаєм сюди елемент
+        hbox4.setPrefHeight(HEIGHT/20);
+        hbox4.getChildren().add(execute);
         grid.add(hbox4, 0, 3);
 
         // контейнер для кнопки Back
         HBox hbox5 = new HBox(10);
         hbox5.setAlignment(Pos.CENTER_LEFT);
         hbox5.setPrefWidth(WIDTH/4);
-        hbox5.setPrefHeight(HEIGHT/5);
+        hbox5.setPrefHeight(HEIGHT/20);
         hbox5.getChildren().add(back);
         grid.add(hbox5, 0, 4);
 
-        // контейнер для виводу результатів
+        // нижній блок
         HBox hbox6 = new HBox(10);
         hbox6.setAlignment(Pos.CENTER_LEFT);
-        hbox6.setPrefWidth(WIDTH/2);
-        hbox6.setPrefHeight(HEIGHT);
-        // додаєм сюди елемент
-        grid.add(hbox6, 1, 1,1,4);
+        hbox6.setPrefWidth(WIDTH/4);
+        hbox6.setPrefHeight(HEIGHT/2);
+        grid.add(hbox6, 0, 5);
+
+        // правий блок
+        HBox hbox7 = new HBox(10);
+        hbox7.setAlignment(Pos.CENTER_LEFT);
+        hbox7.setPrefWidth(WIDTH/2);
+        hbox7.setPrefHeight(HEIGHT);
+        grid.add(hbox7, 1, 0,1,6);
 
         // приклад коду для закриття попереднього вікна, з якого було відкрито дане
         //((Node)(event.getSource())).getScene().getWindow().hide();
