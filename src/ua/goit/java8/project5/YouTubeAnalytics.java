@@ -1,5 +1,6 @@
 package ua.goit.java8.project5;
 
+import com.alibaba.fastjson.JSON;
 import javafx.event.Event;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -13,6 +14,10 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import ua.goit.java8.project5.extra.FileUtils;
+import ua.goit.java8.project5.extra.SettingsSet;
+
+import java.io.IOException;
 
 /**
  * Created by t.oleksiv on 27/09/2017.
@@ -20,7 +25,11 @@ import javafx.stage.Stage;
 public class YouTubeAnalytics {
     private static final int WIDTH = 1000;
     private static final int HEIGHT = 700;
+    private SettingsSet settingsSet;
 
+    public YouTubeAnalytics(SettingsSet settingsSet){
+        this.settingsSet = settingsSet;
+    }
 
     public void show(Event eventLast){
         Stage stage = new Stage();
@@ -44,7 +53,7 @@ public class YouTubeAnalytics {
         // кнопка Back
         Button back = new Button("Back");
         back.setOnMouseClicked(event -> {
-            // запускаєм нове вікно в модальному виді
+            // закриваєм активне вікно
             ((Node)(event.getSource())).getScene().getWindow().hide();
         });
 

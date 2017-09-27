@@ -1,5 +1,6 @@
 package ua.goit.java8.project5;
 
+import com.alibaba.fastjson.JSON;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -12,6 +13,11 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import ua.goit.java8.project5.extra.FileUtils;
+import ua.goit.java8.project5.extra.SettingsSet;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 /**
  * Created by Taras on 26.09.2017.
@@ -20,8 +26,19 @@ public class Main extends Application {
     private static final int WIDTH = 300;
     private static final int HEIGHT = 275;
     private GridPane grid = new GridPane();     //в якості layout використовуєм GridPane для зручності вирівнювання
+    public static final String PATH_TO_SETTINGS = "settings/settings.ini";
+    private static SettingsSet settingsSet = new SettingsSet();
 
     public static void main(String[] args) {
+        String json = null;
+        try {
+            json = FileUtils.readFromFile(PATH_TO_SETTINGS);
+            settingsSet = JSON.parseObject(json,SettingsSet.class);
+        } catch (FileNotFoundException e){
+            System.out.println("The system cannot find the file specified");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         launch();
     }
 
@@ -54,7 +71,7 @@ public class Main extends Application {
         Button buttonYouTubeAnalytics = new Button("YouTube Analytics");
         buttonYouTubeAnalytics.setOnMouseClicked(event -> {
             // ініціалізація вікна YouTubeAnalytics
-            YouTubeAnalytics youTubeAnalytics = new YouTubeAnalytics();
+            YouTubeAnalytics youTubeAnalytics = new YouTubeAnalytics(settingsSet);
             // запускаєм нове вікно в модальному виді
             youTubeAnalytics.show(event);
         });
@@ -67,11 +84,11 @@ public class Main extends Application {
         Button buttonSettings = new Button("Settings");
         buttonSettings.setOnMouseClicked(event -> {
             // ініціалізація вікна Settings
-            Settings settings = new Settings();
+            Settings settings = new Settings(settingsSet);
             // запускаєм нове вікно в модальному виді
             settings.show(event);
         });
-        
+
         HBox hbBtn2 = new HBox(10);
         hbBtn2.setAlignment(Pos.CENTER);
         hbBtn2.getChildren().add(buttonSettings);
