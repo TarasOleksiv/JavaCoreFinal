@@ -11,6 +11,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
@@ -78,6 +80,12 @@ public class YouTubeAnalytics {
                 "Сортировать по Медиа резонансу")
         );
 
+        Rectangle rectangle = new Rectangle();
+        rectangle.setWidth(WIDTH/2);
+        rectangle.setHeight(HEIGHT - 30);
+        rectangle.setFill(Color.TRANSPARENT);
+        rectangle.setStroke(Color.BLACK);
+
         // назва вікна
         Text scenetitle = new Text("YouTube Analytics");
         scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
@@ -86,8 +94,6 @@ public class YouTubeAnalytics {
         // назва дії
         Text actionTitle = new Text("Choose action:");
         actionTitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 14));
-        //grid.add(actionTitle, 0, 1, 1, 1);
-
 
         // контейнер для  назви секції дій
         HBox hbox2 = new HBox(10);
@@ -96,7 +102,6 @@ public class YouTubeAnalytics {
         hbox2.setPrefHeight(HEIGHT/30);
         hbox2.getChildren().add(actionTitle);
         grid.add(hbox2, 0, 1);
-
 
         // контейнер для  вибору дії
         HBox hbox3 = new HBox(10);
@@ -134,7 +139,8 @@ public class YouTubeAnalytics {
         hbox7.setAlignment(Pos.CENTER_LEFT);
         hbox7.setPrefWidth(WIDTH/2);
         hbox7.setPrefHeight(HEIGHT);
-        grid.add(hbox7, 1, 0,1,6);
+        hbox7.getChildren().add(rectangle);
+        grid.add(hbox7, 1, 0, 1, 6);
 
         // приклад коду для закриття попереднього вікна, з якого було відкрито дане
         //((Node)(event.getSource())).getScene().getWindow().hide();
