@@ -3,13 +3,11 @@ package ua.goit.java8.project5;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
@@ -21,6 +19,7 @@ import javafx.stage.Stage;
 public class Main extends Application {
     private static final int WIDTH = 300;
     private static final int HEIGHT = 275;
+    private GridPane grid = new GridPane();     //в якості layout використовуєм GridPane для зручності вирівнювання
 
     public static void main(String[] args) {
         launch();
@@ -28,10 +27,10 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+        //на випадок якщо буде потрібно використати парсер JSONа з Unirest asObject
         //MyObjectMapper myObjectMapper = new MyObjectMapper();
-        Pane root = new Pane();
 
-        GridPane grid = new GridPane();
+        //малюєм стартове вікно у GridPane
         grid.setAlignment(Pos.CENTER);
         grid.setHgap(10);
         grid.setVgap(10);
@@ -52,25 +51,30 @@ public class Main extends Application {
         Label versionNumber = new Label("version # 1.1");
         grid.add(versionNumber, 1, 1);
 
-        Button youTubeAnalytics = new Button("YouTube Analytics");
-        youTubeAnalytics.setOnMouseClicked(event -> {
-            Stage stage = new Stage();
-            stage.setTitle("My New Stage Title");
-            stage.setScene(new Scene(root, 450, 450));
-            stage.show();
-            // Hide this current window (if this is what you want)
-            ((Node)(event.getSource())).getScene().getWindow().hide();
+        Button buttonYouTubeAnalytics = new Button("YouTube Analytics");
+        buttonYouTubeAnalytics.setOnMouseClicked(event -> {
+            // ініціалізація вікна YouTubeAnalytics
+            YouTubeAnalytics youTubeAnalytics = new YouTubeAnalytics();
+            // запускаєм нове вікно в модальному виді
+            youTubeAnalytics.show(event);
         });
 
         HBox hbBtn1 = new HBox(10);
         hbBtn1.setAlignment(Pos.CENTER);
-        hbBtn1.getChildren().add(youTubeAnalytics);
+        hbBtn1.getChildren().add(buttonYouTubeAnalytics);
         grid.add(hbBtn1, 0, 2);
 
-        Button settings = new Button("Settings");
+        Button buttonSettings = new Button("Settings");
+        buttonSettings.setOnMouseClicked(event -> {
+            // ініціалізація вікна Settings
+            Settings settings = new Settings();
+            // запускаєм нове вікно в модальному виді
+            settings.show(event);
+        });
+        
         HBox hbBtn2 = new HBox(10);
         hbBtn2.setAlignment(Pos.CENTER);
-        hbBtn2.getChildren().add(settings);
+        hbBtn2.getChildren().add(buttonSettings);
         grid.add(hbBtn2, 1, 2);
 
         primaryStage.show();
