@@ -11,6 +11,8 @@ import ua.goit.java8.project5.extra.SettingsSet;
 // Результати запитів з методів цього класу виводитимуться на екран YouTubeAnalyticsScreen
 
 public class YouTubeReports {
+    private static final String SEARCH_LINK = "https://www.googleapis.com/youtube/v3/channels";
+    private static final String MY_KEY = "AIzaSyDwu_AH-9_PNHCKIiIzJ-uqXGwNWOfAURw";
     private SettingsSet settingsSet;
 
     public YouTubeReports(SettingsSet settingsSet){

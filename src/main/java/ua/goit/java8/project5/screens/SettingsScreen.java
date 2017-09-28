@@ -68,7 +68,7 @@ public class SettingsScreen {
 
         CheckBox cbUseCache = new CheckBox("Use Cache");
 
-        CheckBox cbShowTime = new CheckBox("Show Time Execution");
+        CheckBox cbShowTime = new CheckBox("Show Execution Time");
 
         Label lblPathToCache = new Label("Path to cache");
 
