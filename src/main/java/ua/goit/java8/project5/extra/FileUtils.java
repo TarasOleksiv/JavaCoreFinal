@@ -66,10 +66,23 @@ public class FileUtils {
         }
     }
 
+    public boolean dirExists(String filePathString){
+        File f = new File(filePathString);
+        if(f.exists() && f.isDirectory()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public void createFile(String filePathString) throws IOException {
         File f = new File(filePathString);
         f.getParentFile().mkdirs();
         f.createNewFile();
     }
 
+    public void createDir(String dirPathString) throws IOException {
+        File f = new File(dirPathString);
+        f.mkdirs();
+    }
 }

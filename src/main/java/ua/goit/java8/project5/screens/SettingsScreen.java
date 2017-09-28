@@ -1,4 +1,4 @@
-package ua.goit.java8.project5;
+package ua.goit.java8.project5.screens;
 
 import com.alibaba.fastjson.JSON;
 import javafx.event.Event;
@@ -17,6 +17,7 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import ua.goit.java8.project5.Main;
 import ua.goit.java8.project5.extra.FileUtils;
 import ua.goit.java8.project5.extra.SettingsSet;
 
@@ -25,14 +26,17 @@ import java.io.IOException;
 /**
  * Created by t.oleksiv on 27/09/2017.
  */
-public class Settings {
+
+// Екран з налаштуваннями
+public class SettingsScreen {
     private static final int WIDTH = 500;
     private static final int HEIGHT = 200;
+    private static final String DEFAULT_CACHE_FOLDER = "cache";
 
     private SettingsSet settingsSet;
     private FileUtils fileUtils = new FileUtils();
 
-    public Settings(SettingsSet settingsSet){
+    public SettingsScreen(SettingsSet settingsSet){
         this.settingsSet = settingsSet;
     }
 
@@ -40,7 +44,7 @@ public class Settings {
     public void show(Event eventLast){
         Stage stage = new Stage();
         GridPane grid = new GridPane();     //grid для зручності вирівнювання, а можна і Pane root
-        stage.setTitle("Settings");
+        stage.setTitle("SettingsScreen");
         grid.setAlignment(Pos.CENTER);
         grid.setHgap(10);
         grid.setVgap(10);
@@ -76,7 +80,7 @@ public class Settings {
             saveSettings(cbUseCache,cbShowTime,txtPathToCache);
         });
 
-        Text scenetitle = new Text("Settings");
+        Text scenetitle = new Text("SettingsScreen");
         scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
         grid.add(scenetitle, 0, 0, 1, 1);
 
@@ -124,24 +128,46 @@ public class Settings {
         readSettings(cbUseCache,cbShowTime,txtPathToCache);
         //System.out.println(fileUtils.getApplicationPath());
         if (settingsSet.getPathToCache() == null) {
-            txtPathToCache.setText(fileUtils.getApplicationPath());
+            txtPathToCache.setText(fileUtils.getApplicationPath() + "\\" + DEFAULT_CACHE_FOLDER);
         }
 
         stage.show();
     }
 
+    // зберігаєм налаштування
     private void saveSettings(CheckBox cbUseCache, CheckBox cbShowTime, TextField txtPathToCache){
         settingsSet.setUseCache(cbUseCache.isSelected()?true:false);
         settingsSet.setShowTime(cbShowTime.isSelected()?true:false);
         settingsSet.setPathToCache(txtPathToCache.getText());
         String json = JSON.toJSONString(settingsSet);
+
+        // якщо файл із налаштуваннями не існує, створюєм його перед збереженням даних
+        if (!fileUtils.fileExists(fileUtils.getApplicationPath() + "/" + Main.PATH_TO_SETTINGS)) {
+            try {
+                fileUtils.createFile(fileUtils.getApplicationPath() + "/" + Main.PATH_TO_SETTINGS);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        // записуєм налаштування у файл в JSON форматі
         try {
-            FileUtils.writeToFile(json, Main.PATH_TO_SETTINGS);
+            fileUtils.writeToFile(json, Main.PATH_TO_SETTINGS);
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        // перевіряєм чи існує вказана папка з кешом; якщо не існує, то створюєм
+        if (!fileUtils.dirExists(settingsSet.getPathToCache())) {
+            try {
+                fileUtils.createDir(settingsSet.getPathToCache());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
+    // виводимо прочитані з файлу налаштування у поля на екрані
     private void readSettings(CheckBox cbUseCache, CheckBox cbShowTime, TextField txtPathToCache){
         cbUseCache.setSelected(settingsSet.getUseCache());
         cbShowTime.setSelected(settingsSet.getShowTime());

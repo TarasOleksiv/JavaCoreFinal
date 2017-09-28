@@ -16,6 +16,8 @@ import javafx.stage.Stage;
 import ua.goit.java8.project5.extra.FileUtils;
 import ua.goit.java8.project5.extra.MyObjectMapper;
 import ua.goit.java8.project5.extra.SettingsSet;
+import ua.goit.java8.project5.screens.SettingsScreen;
+import ua.goit.java8.project5.screens.YouTubeAnalyticsScreen;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -23,6 +25,8 @@ import java.io.IOException;
 /**
  * Created by Taras on 26.09.2017.
  */
+
+// Головний екран
 public class Main extends Application {
     private static final int WIDTH = 300;
     private static final int HEIGHT = 275;
@@ -37,19 +41,23 @@ public class Main extends Application {
             settingsSet = JSON.parseObject(json,SettingsSet.class);
         } catch (FileNotFoundException e){
             settingsSet = new SettingsSet();
-            System.out.println("The system cannot find the file specified");
+            settingsSet.setUseCache(false);
+            settingsSet.setShowTime(false);
+            settingsSet.setPathToCache("");
+            System.out.println("The system cannot find the file with settings: \"" + PATH_TO_SETTINGS + "\"");
+            System.out.println("Once the Save button for settings is pressed it will be created automatically.");
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        //на випадок якщо буде потрібно використати парсер JSONа з Unirest asObject
+        MyObjectMapper myObjectMapper = new MyObjectMapper();
 
         launch();
     }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        //на випадок якщо буде потрібно використати парсер JSONа з Unirest asObject
-        MyObjectMapper myObjectMapper = new MyObjectMapper();
-
         //малюєм стартове вікно у GridPane
         grid.setAlignment(Pos.CENTER);
         grid.setHgap(10);
@@ -73,10 +81,10 @@ public class Main extends Application {
 
         Button buttonYouTubeAnalytics = new Button("YouTube Analytics");
         buttonYouTubeAnalytics.setOnMouseClicked(event -> {
-            // ініціалізація вікна YouTubeAnalytics
-            YouTubeAnalytics youTubeAnalytics = new YouTubeAnalytics(settingsSet);
+            // ініціалізація вікна YouTubeAnalyticsScreen
+            YouTubeAnalyticsScreen youTubeAnalyticsScreen = new YouTubeAnalyticsScreen(settingsSet);
             // запускаєм нове вікно в модальному виді
-            youTubeAnalytics.show(event);
+            youTubeAnalyticsScreen.show(event);
         });
 
         HBox hbBtn1 = new HBox(10);
@@ -84,12 +92,12 @@ public class Main extends Application {
         hbBtn1.getChildren().add(buttonYouTubeAnalytics);
         grid.add(hbBtn1, 0, 2);
 
-        Button buttonSettings = new Button("Settings");
+        Button buttonSettings = new Button("SettingsScreen");
         buttonSettings.setOnMouseClicked(event -> {
-            // ініціалізація вікна Settings
-            Settings settings = new Settings(settingsSet);
+            // ініціалізація вікна SettingsScreen
+            SettingsScreen settingsScreen = new SettingsScreen(settingsSet);
             // запускаєм нове вікно в модальному виді
-            settings.show(event);
+            settingsScreen.show(event);
         });
 
         HBox hbBtn2 = new HBox(10);

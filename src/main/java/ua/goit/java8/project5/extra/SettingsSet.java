@@ -3,6 +3,8 @@ package ua.goit.java8.project5.extra;
 /**
  * Created by t.oleksiv on 27/09/2017.
  */
+
+// клас налаштувань
 public class SettingsSet {
     private boolean useCache;
     private boolean showTime;
