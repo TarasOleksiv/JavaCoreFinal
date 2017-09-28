@@ -79,6 +79,7 @@ public class YouTubeAnalytics {
                 "Сравнить Медиа резонанс",
                 "Сортировать по Медиа резонансу")
         );
+        choiceBoxAction.getSelectionModel().select(0);
 
         Rectangle rectangle = new Rectangle();
         rectangle.setWidth(WIDTH/2);

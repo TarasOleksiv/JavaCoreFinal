@@ -14,6 +14,7 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import ua.goit.java8.project5.extra.FileUtils;
+import ua.goit.java8.project5.extra.MyObjectMapper;
 import ua.goit.java8.project5.extra.SettingsSet;
 
 import java.io.FileNotFoundException;
@@ -47,7 +48,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         //на випадок якщо буде потрібно використати парсер JSONа з Unirest asObject
-        //MyObjectMapper myObjectMapper = new MyObjectMapper();
+        MyObjectMapper myObjectMapper = new MyObjectMapper();
 
         //малюєм стартове вікно у GridPane
         grid.setAlignment(Pos.CENTER);
