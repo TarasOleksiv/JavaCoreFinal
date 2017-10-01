@@ -2,24 +2,19 @@ package ua.goit.java8.project5.screens;
 
 import javafx.collections.FXCollections;
 import javafx.event.Event;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
+import javafx.scene.layout.VBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import ua.goit.java8.project5.extra.SettingsSet;
+import ua.goit.java8.project5.reports.GlobalChannelInfo;
 
-import java.io.IOException;
 
 /**
  * Created by t.oleksiv on 27/09/2017.
@@ -27,27 +22,25 @@ import java.io.IOException;
 
 // Екран вибору та запуску завдань
 public class YouTubeAnalyticsScreen {
-    private static final int WIDTH = 1000;
-    private static final int HEIGHT = 700;
-    private SettingsSet settingsSet;
+    public static final int WIDTH = 1000;
+    public static final int HEIGHT = 700;
+    private VBox inputVBox;
+    private VBox outputVBox;
+    //private SettingsSet settingsSet;
 
+    private Button execute;
+    private Button back;
 
-    public YouTubeAnalyticsScreen(SettingsSet settingsSet){
-        this.settingsSet = settingsSet;
-    }
+    //public YouTubeAnalyticsScreen(){
+    //    this.settingsSet = Main.settingsSet;
+    //}
 
     public void show(Event eventLast){
-        // методи виконання запитів будуть міститись у класі YouTubeReports
-        YouTubeReports youTubeReports = new YouTubeReports(settingsSet);
-
         Stage stage = new Stage();
-        GridPane grid = new GridPane();     //grid для зручності вирівнювання, а можна і Pane root
+        Pane root = new Pane();
         stage.setTitle("YouTube Analytics");
-        grid.setAlignment(Pos.CENTER);
-        grid.setHgap(10);
-        grid.setVgap(10);
-        grid.setPadding(new Insets(25, 25, 25, 25));
-        stage.setScene(new Scene(grid, WIDTH, HEIGHT));
+
+        stage.setScene(new Scene(root, WIDTH, HEIGHT));
 
         stage.initModality(Modality.WINDOW_MODAL);      //запускаєм вікно в модальному виді для того, щоб стартове вікно було неактивне
 
@@ -56,25 +49,25 @@ public class YouTubeAnalyticsScreen {
                 ((Node)eventLast.getSource()).getScene().getWindow() );
 
         // заповнюєм елементами вікно
-        // створюєм елементи, створюєм контейнери і запихаєм елементи в контейнери
 
-        // кнопка Back
-        Button back = new Button("Back");
-        back.setPrefWidth(100);
-        back.setOnMouseClicked(event -> {
-            // закриваєм активне вікно
-            ((Node)(event.getSource())).getScene().getWindow().hide();
-        });
+        // назва вікна
+        Text scenetitle = new Text("YouTube Analytics");
+        scenetitle.setTranslateX(20);
+        scenetitle.setTranslateY(40);
+        scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
+        root.getChildren().add(scenetitle);
 
-        // кнопка Execute
-        Button execute = new Button("Execute");
-        execute.setPrefWidth(100);
-        execute.setOnMouseClicked(event -> {
-
-        });
+        // назва дії
+        Text actionTitle = new Text("Choose action:");
+        actionTitle.setTranslateX(20);
+        actionTitle.setTranslateY(90);
+        actionTitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 14));
+        root.getChildren().add(actionTitle);
 
         // листбокс для вибору дій
         ChoiceBox choiceBoxAction = new ChoiceBox();
+        choiceBoxAction.setTranslateX(20);
+        choiceBoxAction.setTranslateY(100);
         choiceBoxAction.setItems(FXCollections.observableArrayList(
                 "Отобразить глобальную информацию о канале",
                 "Сравнить глобальную информацию о каналах",
@@ -84,73 +77,159 @@ public class YouTubeAnalyticsScreen {
                 "Сортировать по Медиа резонансу")
         );
         choiceBoxAction.getSelectionModel().select(0);
+        root.getChildren().add(choiceBoxAction);
 
-        Rectangle rectangle = new Rectangle();
-        rectangle.setWidth(WIDTH/2);
-        rectangle.setHeight(HEIGHT - 30);
-        rectangle.setFill(Color.TRANSPARENT);
-        rectangle.setStroke(Color.BLACK);
+        // кнопка Back
+        back = new Button("Back");
+        back.setTranslateX(20);
+        back.setTranslateY(180);
+        back.setPrefWidth(100);
+        back.setOnMouseClicked(event -> {
+            // закриваєм активне вікно
+            ((Node)(event.getSource())).getScene().getWindow().hide();
+        });
+        root.getChildren().add(back);
 
-        // назва вікна
-        Text scenetitle = new Text("YouTube Analytics");
-        scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
-        grid.add(scenetitle, 0, 0, 1, 1);
+        // кнопка Execute
+        execute = new Button("Execute");
+        execute.setTranslateX(20);
+        execute.setTranslateY(140);
+        execute.setPrefWidth(100);
+        execute.setOnMouseClicked(event -> {
+            executeAction(choiceBoxAction.getSelectionModel().getSelectedIndex());
+        });
+        root.getChildren().add(execute);
 
-        // назва дії
-        Text actionTitle = new Text("Choose action:");
-        actionTitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 14));
+        Text inputTitle = new Text("Input");
+        inputTitle.setTranslateX(10);
+        inputTitle.setTranslateY(10);
+        inputTitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 14));
 
-        // контейнер для  назви секції дій
-        HBox hbox2 = new HBox(10);
-        hbox2.setAlignment(Pos.CENTER_LEFT);
-        hbox2.setPrefWidth(WIDTH/4);
-        hbox2.setPrefHeight(HEIGHT/30);
-        hbox2.getChildren().add(actionTitle);
-        grid.add(hbox2, 0, 1);
+        // бокс для вводу вхідних даних
+        inputVBox = new VBox();
+        inputVBox.setTranslateX(20);
+        inputVBox.setTranslateY(250);
+        inputVBox.setPrefWidth(400);
+        inputVBox.setPrefHeight(300);
+        inputVBox.setSpacing(30);
+        inputVBox.setStyle("-fx-padding: 10;" +
+                "-fx-border-style: solid inside;" +
+                "-fx-border-width: 2;" +
+                "-fx-border-insets: 5;" +
+                "-fx-border-radius: 5;" +
+                "-fx-border-color: black;");
+        inputVBox.getChildren().add(inputTitle);
+        root.getChildren().add(inputVBox);
 
-        // контейнер для  вибору дії
-        HBox hbox3 = new HBox(10);
-        hbox3.setAlignment(Pos.CENTER_LEFT);
-        hbox3.setPrefWidth(WIDTH/3);
-        hbox3.setPrefHeight(HEIGHT/20);
-        hbox3.getChildren().add(choiceBoxAction);
-        grid.add(hbox3, 0, 2);
+        Text outputTitle = new Text("Output");
+        outputTitle.setTranslateX(10);
+        outputTitle.setTranslateY(10);
+        outputTitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 14));
 
-        // контейнер для  кнопки Execute
-        HBox hbox4 = new HBox(10);
-        hbox4.setAlignment(Pos.CENTER_LEFT);
-        hbox4.setPrefWidth(WIDTH/4);
-        hbox4.setPrefHeight(HEIGHT/20);
-        hbox4.getChildren().add(execute);
-        grid.add(hbox4, 0, 3);
-
-        // контейнер для кнопки Back
-        HBox hbox5 = new HBox(10);
-        hbox5.setAlignment(Pos.CENTER_LEFT);
-        hbox5.setPrefWidth(WIDTH/4);
-        hbox5.setPrefHeight(HEIGHT/20);
-        hbox5.getChildren().add(back);
-        grid.add(hbox5, 0, 4);
-
-        // нижній блок
-        HBox hbox6 = new HBox(10);
-        hbox6.setAlignment(Pos.CENTER_LEFT);
-        hbox6.setPrefWidth(WIDTH/4);
-        hbox6.setPrefHeight(HEIGHT/2);
-        grid.add(hbox6, 0, 5);
-
-        // правий блок
-        HBox hbox7 = new HBox(10);
-        hbox7.setAlignment(Pos.CENTER_LEFT);
-        hbox7.setPrefWidth(WIDTH/2);
-        hbox7.setPrefHeight(HEIGHT);
-        hbox7.getChildren().add(rectangle);
-        grid.add(hbox7, 1, 0, 1, 6);
-
-        // приклад коду для закриття попереднього вікна, з якого було відкрито дане
-        //((Node)(event.getSource())).getScene().getWindow().hide();
+        // бокс для виводу результатів з блоку вхідних даних
+        outputVBox = new VBox();
+        outputVBox.setTranslateX(450);
+        outputVBox.setTranslateY(90);
+        outputVBox.setPrefWidth(500);
+        outputVBox.setPrefHeight(460);
+        outputVBox.setSpacing(10);
+        outputVBox.setStyle("-fx-padding: 10;" +
+                "-fx-border-style: solid inside;" +
+                "-fx-border-width: 2;" +
+                "-fx-border-insets: 5;" +
+                "-fx-border-radius: 5;" +
+                "-fx-border-color: black;");
+        outputVBox.getChildren().add(outputTitle);
+        root.getChildren().add(outputVBox);
 
         stage.show();
     }
 
+    // метод розподілу вибраних дій
+    public void executeAction(int choice){
+        clearInputVBox();
+        clearOutputVBox();
+        switch (choice){
+            case 0:
+                GlobalChannelInfo globalChannelInfo = new GlobalChannelInfo(inputVBox,outputVBox,execute,back);
+                globalChannelInfo.show();
+                //showGlobalChannelInfo();
+                break;
+            case 1:
+                compareGlobalChannelInfo();
+                break;
+            case 2:
+                sortChannelsByData();
+                break;
+            case 3:
+                //showMediaResonance();
+                break;
+            case 4:
+                compareMediaResonance();
+                break;
+            case 5:
+                sortByMediaResonance();
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void clearInputVBox(){
+        if (inputVBox != null){
+            inputVBox.getChildren().clear();
+            drawInputTitle(inputVBox);
+        }
+    }
+
+    private void drawInputTitle(VBox inputHBox){
+        Text inputTitle = new Text("Input");
+        inputTitle.setTranslateX(10);
+        inputTitle.setTranslateY(10);
+        inputTitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 14));
+        inputHBox.getChildren().add(inputTitle);
+    }
+
+    private void clearOutputVBox(){
+        if (outputVBox != null){
+            outputVBox.getChildren().clear();
+            drawOutputTitle(outputVBox);
+        }
+    }
+
+    private void drawOutputTitle(VBox outputVBox){
+        Text outputTitle = new Text("Output");
+        outputTitle.setTranslateX(10);
+        outputTitle.setTranslateY(10);
+        outputTitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 14));
+        outputVBox.getChildren().add(outputTitle);
+    }
+
+    private void showGlobalChannelInfo(){
+        System.out.println("0");
+    }
+
+    private void compareGlobalChannelInfo(){
+        System.out.println("1");
+    }
+
+    private void sortChannelsByData(){
+        System.out.println("2");
+    }
+
+    private void showMediaResonance(){
+        System.out.println("3");
+    }
+
+    private void compareMediaResonance(){
+        System.out.println("4");
+    }
+
+    private void sortByMediaResonance(){
+        System.out.println("5");
+    }
+
+
+    public Button getExecute(){return execute;}
+    public Button getBack(){return back;}
 }

@@ -30,9 +30,9 @@ import java.io.IOException;
 public class Main extends Application {
     private static final int WIDTH = 300;
     private static final int HEIGHT = 275;
-    private GridPane grid = new GridPane();     //в якості layout використовуєм GridPane для зручності вирівнювання
+    private GridPane grid = new GridPane();
     public static final String PATH_TO_SETTINGS = "settings/settings.ini";
-    private static SettingsSet settingsSet;
+    public static SettingsSet settingsSet;
 
     public static void main(String[] args) {
         String json = null;
@@ -82,7 +82,7 @@ public class Main extends Application {
         Button buttonYouTubeAnalytics = new Button("YouTube Analytics");
         buttonYouTubeAnalytics.setOnMouseClicked(event -> {
             // ініціалізація вікна YouTubeAnalyticsScreen
-            YouTubeAnalyticsScreen youTubeAnalyticsScreen = new YouTubeAnalyticsScreen(settingsSet);
+            YouTubeAnalyticsScreen youTubeAnalyticsScreen = new YouTubeAnalyticsScreen();
             // запускаєм нове вікно в модальному виді
             youTubeAnalyticsScreen.show(event);
         });
@@ -95,7 +95,7 @@ public class Main extends Application {
         Button buttonSettings = new Button("SettingsScreen");
         buttonSettings.setOnMouseClicked(event -> {
             // ініціалізація вікна SettingsScreen
-            SettingsScreen settingsScreen = new SettingsScreen(settingsSet);
+            SettingsScreen settingsScreen = new SettingsScreen();
             // запускаєм нове вікно в модальному виді
             settingsScreen.show(event);
         });

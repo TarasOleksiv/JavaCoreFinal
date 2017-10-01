@@ -36,8 +36,8 @@ public class SettingsScreen {
     private SettingsSet settingsSet;
     private FileUtils fileUtils = new FileUtils();
 
-    public SettingsScreen(SettingsSet settingsSet){
-        this.settingsSet = settingsSet;
+    public SettingsScreen(){
+        this.settingsSet = Main.settingsSet;
     }
 
 
@@ -78,6 +78,8 @@ public class SettingsScreen {
         Button save = new Button("Save");
         save.setOnMouseClicked(event -> {
             saveSettings(cbUseCache,cbShowTime,txtPathToCache);
+            // закриваєм активне вікно
+            ((Node)(event.getSource())).getScene().getWindow().hide();
         });
 
         Text scenetitle = new Text("SettingsScreen");
@@ -139,6 +141,8 @@ public class SettingsScreen {
         settingsSet.setUseCache(cbUseCache.isSelected()?true:false);
         settingsSet.setShowTime(cbShowTime.isSelected()?true:false);
         settingsSet.setPathToCache(txtPathToCache.getText());
+        Main.settingsSet = settingsSet;
+
         String json = JSON.toJSONString(settingsSet);
 
         // якщо файл із налаштуваннями не існує, створюєм його перед збереженням даних
