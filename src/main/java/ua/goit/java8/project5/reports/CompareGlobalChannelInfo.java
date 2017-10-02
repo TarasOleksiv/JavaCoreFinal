@@ -46,7 +46,7 @@ public class CompareGlobalChannelInfo extends GlobalChannelInfo {
         Label lblChannelId2 = new Label("Channel Id #2");
         channelId2.getChildren().add(lblChannelId2);
 
-        TextField textChannelId2 = new TextField("UC_x5XG1OV2P6uZZ5FSM9Ttw");
+        TextField textChannelId2 = new TextField("UC-kpTYxx7mgvcSL7g93JLDw");
         textChannelId2.setPrefWidth(250);
         channelId2.getChildren().add(textChannelId2);
 

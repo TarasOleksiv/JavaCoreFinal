@@ -18,6 +18,7 @@ import java.util.List;
             4.	Кол-во видео на канале - statistics.videoCount - unsigned long. The number of videos uploaded to the channel.
             5.	Кол-во просмотров всех видео - statistics.viewCount - unsigned long. The number of times the channel has been viewed.
             6.	Кол-во комментариев - statistics.commentCount - unsigned long. The number of comments for the channel.
+            invideoPromotion.items[].id.videoId - string
 */
 
 @JsonIgnoreProperties(ignoreUnknown = true)

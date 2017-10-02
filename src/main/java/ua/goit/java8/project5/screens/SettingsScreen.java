@@ -128,8 +128,7 @@ public class SettingsScreen {
         grid.add(hbox6, 1, 4);
 
         readSettings(cbUseCache,cbShowTime,txtPathToCache);
-        //System.out.println(fileUtils.getApplicationPath());
-        if (settingsSet.getPathToCache() == null) {
+        if ((settingsSet.getPathToCache().equals(null)) || (settingsSet.getPathToCache().equals(""))) {
             txtPathToCache.setText(fileUtils.getApplicationPath() + "\\" + DEFAULT_CACHE_FOLDER);
         }
 
