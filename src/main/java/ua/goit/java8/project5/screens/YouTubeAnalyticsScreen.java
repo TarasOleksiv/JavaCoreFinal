@@ -6,6 +6,7 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
@@ -13,6 +14,7 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import ua.goit.java8.project5.reports.CompareGlobalChannelInfo;
 import ua.goit.java8.project5.reports.GlobalChannelInfo;
 
 
@@ -69,12 +71,12 @@ public class YouTubeAnalyticsScreen {
         choiceBoxAction.setTranslateX(20);
         choiceBoxAction.setTranslateY(100);
         choiceBoxAction.setItems(FXCollections.observableArrayList(
-                "Отобразить глобальную информацию о канале",
-                "Сравнить глобальную информацию о каналах",
-                "Сортировать каналы по их данным",
-                "Медиа резонанс",
-                "Сравнить Медиа резонанс",
-                "Сортировать по Медиа резонансу")
+                "Show global channel info",
+                "Compare global channel info",
+                "Sort channels by data",
+                "Media resonance",
+                "Compare media resonance",
+                "Sort by media resonance")
         );
         choiceBoxAction.getSelectionModel().select(0);
         root.getChildren().add(choiceBoxAction);
@@ -156,13 +158,15 @@ public class YouTubeAnalyticsScreen {
                 //showGlobalChannelInfo();
                 break;
             case 1:
-                compareGlobalChannelInfo();
+                CompareGlobalChannelInfo compareGlobalChannelInfo = new CompareGlobalChannelInfo(inputVBox,outputVBox,execute,back);
+                compareGlobalChannelInfo.show();
+                //compareGlobalChannelInfo();
                 break;
             case 2:
                 sortChannelsByData();
                 break;
             case 3:
-                //showMediaResonance();
+                showMediaResonance();
                 break;
             case 4:
                 compareMediaResonance();
@@ -175,6 +179,7 @@ public class YouTubeAnalyticsScreen {
         }
     }
 
+    // очистка елементів боксу інпута
     private void clearInputVBox(){
         if (inputVBox != null){
             inputVBox.getChildren().clear();
@@ -182,6 +187,7 @@ public class YouTubeAnalyticsScreen {
         }
     }
 
+    // малюєм назву боксу інпута
     private void drawInputTitle(VBox inputHBox){
         Text inputTitle = new Text("Input");
         inputTitle.setTranslateX(10);
@@ -190,6 +196,7 @@ public class YouTubeAnalyticsScreen {
         inputHBox.getChildren().add(inputTitle);
     }
 
+    // очистка елементів боксу аутпута
     private void clearOutputVBox(){
         if (outputVBox != null){
             outputVBox.getChildren().clear();
@@ -197,6 +204,7 @@ public class YouTubeAnalyticsScreen {
         }
     }
 
+    // малюєм назву боксу аутпута
     private void drawOutputTitle(VBox outputVBox){
         Text outputTitle = new Text("Output");
         outputTitle.setTranslateX(10);

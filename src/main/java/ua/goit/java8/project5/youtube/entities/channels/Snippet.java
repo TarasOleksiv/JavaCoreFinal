@@ -1,4 +1,4 @@
-package ua.goit.java8.project5.youtube.entities;
+package ua.goit.java8.project5.youtube.entities.channels;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
