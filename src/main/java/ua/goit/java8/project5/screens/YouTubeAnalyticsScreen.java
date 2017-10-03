@@ -33,9 +33,6 @@ public class YouTubeAnalyticsScreen {
     private Button execute;
     private Button back;
 
-    //public YouTubeAnalyticsScreen(){
-    //    this.settingsSet = Main.settingsSet;
-    //}
 
     public void show(Event eventLast){
         Stage stage = new Stage();
@@ -177,6 +174,8 @@ public class YouTubeAnalyticsScreen {
                 sortByMediaResonance();
                 break;
             default:
+                globalChannelInfo = new GlobalChannelInfo(inputVBox,outputVBox,execute,back);
+                globalChannelInfo.show();
                 break;
         }
     }

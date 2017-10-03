@@ -7,7 +7,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.VBox;
 import ua.goit.java8.project5.Main;
-import ua.goit.java8.project5.test.TableViewChannelInfoTest;
 import ua.goit.java8.project5.youtube.entities.channels.Channel;
 import ua.goit.java8.project5.youtube.entities.channels.ChannelsResponse;
 
@@ -56,26 +55,26 @@ public class SortChannelsByData {
         run = new Button("Run");
         run.setOnMouseClicked(event -> {
             // запускаєм запит
-            //new Thread(()->{
-                // getChannels(getChannelsResponses(txtChannelsArray.getText()))
-                TableViewChannelInfo tableViewChannelInfo = new TableViewChannelInfo();
+            new Thread(()->{
+                // виводимо результат в окреме вікно з допомогою елемента TableView
+                TableViewChannelInfo tableViewChannelInfo = new TableViewChannelInfo(getChannels(getChannelsResponses(txtChannelsArray.getText())));
                 Platform.runLater(()-> {
                     tableViewChannelInfo.show();
                 });
-                //channelsArray = getChannelsArray(txtChannelsArray.getText());
-                //showResults(textChannelId);
-            //}).start();
+            }).start();
         });
 
         inputVBox.getChildren().addAll(lblChannelId, txtChannelsArray, run);
     }
 
+    // отримуєм масив id каналів з вікна вводу
     private String[] getChannelsArray(String string){
         String delims = "\n";
         String[] result = string.split(delims);
         return result;
     }
 
+    // метод запуску отримання response
     private ChannelsResponse[] getChannelsResponses(String string){
         String[] channelsArray = getChannelsArray(string);
         ChannelsResponse[] channelsResponses = new ChannelsResponse[channelsArray.length];
@@ -102,6 +101,7 @@ public class SortChannelsByData {
         return channelsResponses;
     }
 
+    // отримуєм масив каналів з даними
     private Channel[] getChannels(ChannelsResponse[] channelsResponses){
         Channel[] channels = new Channel[channelsResponses.length];
         for (int i = 0; i < channels.length; i++){
