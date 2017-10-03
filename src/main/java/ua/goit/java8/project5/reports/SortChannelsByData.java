@@ -57,9 +57,10 @@ public class SortChannelsByData {
             // запускаєм запит
             new Thread(()->{
                 // виводимо результат в окреме вікно з допомогою елемента TableView
+                long startTime = System.currentTimeMillis();
                 TableViewChannelInfo tableViewChannelInfo = new TableViewChannelInfo(getChannels(getChannelsResponses(txtChannelsArray.getText())));
                 Platform.runLater(()-> {
-                    tableViewChannelInfo.show();
+                    tableViewChannelInfo.show(startTime);
                 });
             }).start();
         });

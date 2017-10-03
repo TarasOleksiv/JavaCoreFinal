@@ -13,6 +13,8 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import ua.goit.java8.project5.Main;
+import ua.goit.java8.project5.extra.DateUtils;
 import ua.goit.java8.project5.youtube.entities.channels.Channel;
 import java.util.Date;
 
@@ -23,7 +25,7 @@ public class TableViewChannelInfo {
         this.channels = channels;
     }
 
-    public void show(){
+    public void show(long startTime){
         Stage stage = new Stage();
         TableView<ChannelIn> table = new TableView<ChannelIn>();
 
@@ -71,7 +73,10 @@ public class TableViewChannelInfo {
         root.setPadding(new Insets(5));
         root.getChildren().add(table);
 
-        stage.setTitle("Sorting Channels Array");
+        long duration = System.currentTimeMillis() - startTime;
+        String screenTitle = "Sorting Channels Array";
+        screenTitle = (Main.settingsSet.getShowTime()?screenTitle + "     Execution time: " + duration:screenTitle);
+        stage.setTitle(screenTitle);
 
         Scene scene = new Scene(root, 900, 500);
         stage.setScene(scene);
