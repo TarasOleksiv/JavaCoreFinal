@@ -11,5 +11,4 @@ public class Channel {
     public String id;
     public Snippet snippet;
     public Statistics statistics;
-    public InvideoPromotion invideoPromotion;
 }

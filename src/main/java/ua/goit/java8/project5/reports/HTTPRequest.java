@@ -22,7 +22,7 @@ public class HTTPRequest {
     public ChannelsResponse getHTTPResponse(String id) throws UnirestException {
         //id = "UC_x5XG1OV2P6uZZ5FSM9Ttw";
         HttpResponse<ChannelsResponse> response = Unirest.get(SEARCH_LINK)
-                .queryString("part", "snippet,statistics,invideoPromotion")
+                .queryString("part", "snippet,statistics")
                 .queryString("id", id)
                 .queryString("key", MY_KEY)
                 .asObject(ChannelsResponse.class);

@@ -6,7 +6,6 @@ import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
@@ -16,6 +15,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import ua.goit.java8.project5.reports.CompareGlobalChannelInfo;
 import ua.goit.java8.project5.reports.GlobalChannelInfo;
+import ua.goit.java8.project5.reports.SortChannelsByData;
 
 
 /**
@@ -163,7 +163,9 @@ public class YouTubeAnalyticsScreen {
                 //compareGlobalChannelInfo();
                 break;
             case 2:
-                sortChannelsByData();
+                SortChannelsByData sortChannelsByData = new SortChannelsByData(inputVBox,outputVBox,execute,back);
+                sortChannelsByData.show();
+                //sortChannelsByData();
                 break;
             case 3:
                 showMediaResonance();

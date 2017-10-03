@@ -22,7 +22,6 @@ import java.io.IOException;
  */
 public class GlobalChannelInfo {
     protected VBox inputVBox;
-    protected HBox outputHBox;
     protected VBox outputVBox;
     protected Button execute;
     protected Button back;
