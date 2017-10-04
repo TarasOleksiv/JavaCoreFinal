@@ -13,10 +13,7 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import ua.goit.java8.project5.reports.CompareGlobalChannelInfo;
-import ua.goit.java8.project5.reports.GlobalChannelInfo;
-import ua.goit.java8.project5.reports.MediaResonance;
-import ua.goit.java8.project5.reports.SortChannelsByData;
+import ua.goit.java8.project5.reports.*;
 
 
 /**
@@ -25,11 +22,10 @@ import ua.goit.java8.project5.reports.SortChannelsByData;
 
 // Екран вибору та запуску завдань
 public class YouTubeAnalyticsScreen {
-    public static final int WIDTH = 1000;
+    public static final int WIDTH = 1400;
     public static final int HEIGHT = 700;
     private VBox inputVBox;
     private VBox outputVBox;
-    //private SettingsSet settingsSet;
 
     private Button execute;
     private Button back;
@@ -91,7 +87,7 @@ public class YouTubeAnalyticsScreen {
         root.getChildren().add(back);
 
         // кнопка Execute
-        execute = new Button("Execute");
+        execute = new Button("Start");
         execute.setTranslateX(20);
         execute.setTranslateY(140);
         execute.setPrefWidth(100);
@@ -110,7 +106,7 @@ public class YouTubeAnalyticsScreen {
         inputVBox.setTranslateX(20);
         inputVBox.setTranslateY(250);
         inputVBox.setPrefWidth(400);
-        inputVBox.setPrefHeight(300);
+        inputVBox.setPrefHeight(350);
         inputVBox.setSpacing(30);
         inputVBox.setStyle("-fx-padding: 10;" +
                 "-fx-border-style: solid inside;" +
@@ -130,8 +126,8 @@ public class YouTubeAnalyticsScreen {
         outputVBox = new VBox();
         outputVBox.setTranslateX(450);
         outputVBox.setTranslateY(90);
-        outputVBox.setPrefWidth(500);
-        outputVBox.setPrefHeight(460);
+        outputVBox.setPrefWidth(900);
+        outputVBox.setPrefHeight(510);
         outputVBox.setSpacing(10);
         outputVBox.setStyle("-fx-padding: 10;" +
                 "-fx-border-style: solid inside;" +
@@ -153,28 +149,25 @@ public class YouTubeAnalyticsScreen {
             case 0:
                 GlobalChannelInfo globalChannelInfo = new GlobalChannelInfo(inputVBox,outputVBox,execute,back);
                 globalChannelInfo.show();
-                //showGlobalChannelInfo();
                 break;
             case 1:
                 CompareGlobalChannelInfo compareGlobalChannelInfo = new CompareGlobalChannelInfo(inputVBox,outputVBox,execute,back);
                 compareGlobalChannelInfo.show();
-                //compareGlobalChannelInfo();
                 break;
             case 2:
-                SortChannelsByData sortChannelsByData = new SortChannelsByData(inputVBox,outputVBox,execute,back);
+                SortChannelsByData sortChannelsByData = new SortChannelsByData(inputVBox,outputVBox);
                 sortChannelsByData.show();
-                //sortChannelsByData();
                 break;
             case 3:
                 MediaResonance mediaResonance = new MediaResonance(inputVBox,outputVBox,execute,back);
                 mediaResonance.show();
-                //showMediaResonance();
                 break;
             case 4:
-                compareMediaResonance();
+                CompareMediaResonance compareMediaResonance = new CompareMediaResonance(inputVBox,outputVBox,execute,back);
+                compareMediaResonance.show();
                 break;
             case 5:
-                sortByMediaResonance();
+
                 break;
             default:
                 globalChannelInfo = new GlobalChannelInfo(inputVBox,outputVBox,execute,back);
@@ -217,31 +210,4 @@ public class YouTubeAnalyticsScreen {
         outputVBox.getChildren().add(outputTitle);
     }
 
-    private void showGlobalChannelInfo(){
-        System.out.println("0");
-    }
-
-    private void compareGlobalChannelInfo(){
-        System.out.println("1");
-    }
-
-    private void sortChannelsByData(){
-        System.out.println("2");
-    }
-
-    private void showMediaResonance(){
-        System.out.println("3");
-    }
-
-    private void compareMediaResonance(){
-        System.out.println("4");
-    }
-
-    private void sortByMediaResonance(){
-        System.out.println("5");
-    }
-
-
-    public Button getExecute(){return execute;}
-    public Button getBack(){return back;}
 }

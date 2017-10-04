@@ -76,7 +76,7 @@ public class Main extends Application {
         Label appName = new Label("YouTube Monitor");
         grid.add(appName, 0, 1);
 
-        Label versionNumber = new Label("version # 1.1");
+        Label versionNumber = new Label("version # 1.5");
         grid.add(versionNumber, 1, 1);
 
         Button buttonYouTubeAnalytics = new Button("YouTube Analytics");

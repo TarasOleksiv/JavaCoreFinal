@@ -6,27 +6,30 @@ package ua.goit.java8.project5.reports;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.geometry.Insets;
-import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
+import javafx.scene.text.FontWeight;
 import ua.goit.java8.project5.Main;
-import ua.goit.java8.project5.extra.DateUtils;
 import ua.goit.java8.project5.youtube.entities.channels.Channel;
+
 import java.util.Date;
 
 public class TableViewChannelInfo {
     private Channel[] channels;
+    private VBox outputVBox;
 
-    public TableViewChannelInfo(Channel[] channels){
+    public TableViewChannelInfo(Channel[] channels, VBox outputVBox){
         this.channels = channels;
+        this.outputVBox = outputVBox;
     }
 
     public void show(long startTime){
-        Stage stage = new Stage();
+
         TableView<ChannelIn> table = new TableView<ChannelIn>();
 
         // Create column id (Data type of String).
@@ -69,18 +72,19 @@ public class TableViewChannelInfo {
         table.getColumns().addAll(idCol, titleCol, publishedAtCol, subscriberCountCol, videoCountCol, viewCountCol);
         table.setItems(list);
 
-        StackPane root = new StackPane();
-        root.setPadding(new Insets(5));
-        root.getChildren().add(table);
+        Label gap1 = new Label();
+        Label gap2 = new Label();
+        Label lblTitle = new Label("Sort Channels By Data");
+        lblTitle.setFont(Font.font("Verdana", FontWeight.BOLD, FontPosture.ITALIC, 12));
+        outputVBox.getChildren().addAll(gap1, lblTitle, gap2, table);
 
         long duration = System.currentTimeMillis() - startTime;
-        String screenTitle = "Sorting Channels Array";
-        screenTitle = (Main.settingsSet.getShowTime()?screenTitle + "     Execution time: " + duration:screenTitle);
-        stage.setTitle(screenTitle);
 
-        Scene scene = new Scene(root, 900, 500);
-        stage.setScene(scene);
-        stage.show();
+        if (Main.settingsSet.getShowTime()) {
+            Label gap = new Label();
+            Label lblExecutionTime = new Label("Execution time:     " + duration);
+            outputVBox.getChildren().addAll(gap, lblExecutionTime);
+        }
     }
 
 

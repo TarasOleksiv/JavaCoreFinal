@@ -6,6 +6,9 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 import ua.goit.java8.project5.Main;
 import ua.goit.java8.project5.youtube.entities.channels.Channel;
 import ua.goit.java8.project5.youtube.entities.channels.ChannelsResponse;
@@ -18,10 +21,7 @@ import java.io.IOException;
 public class SortChannelsByData {
     private VBox inputVBox;
     private VBox outputVBox;
-    private Button execute;
-    private Button back;
     private Button run;
-    private String[] channelsArray;
 
     private static final String INPUT_CHANNEL_ARRAY =
                     "UC_x5XG1OV2P6uZZ5FSM9Ttw" + "\n"
@@ -35,11 +35,9 @@ public class SortChannelsByData {
                     + "UCpvg0uZH-oxmCagOWJo9p9g" + "\n"
                     + "UC2EU93iTrieTLeYdIO0uF7g" + "\n";
 
-    public SortChannelsByData(VBox inputVBox, VBox outputVBox, Button execute, Button back){
+    public SortChannelsByData(VBox inputVBox, VBox outputVBox){
         this.inputVBox = inputVBox;
         this.outputVBox = outputVBox;
-        this.execute = execute;
-        this.back = back;
     }
 
     // заповнюєм елементами Input box
@@ -58,8 +56,9 @@ public class SortChannelsByData {
             new Thread(()->{
                 // виводимо результат в окреме вікно з допомогою елемента TableView
                 long startTime = System.currentTimeMillis();
-                TableViewChannelInfo tableViewChannelInfo = new TableViewChannelInfo(getChannels(getChannelsResponses(txtChannelsArray.getText())));
+                TableViewChannelInfo tableViewChannelInfo = new TableViewChannelInfo(getChannels(getChannelsResponses(txtChannelsArray.getText())),outputVBox);
                 Platform.runLater(()-> {
+                    clearOutputVBox();
                     tableViewChannelInfo.show(startTime);
                 });
             }).start();
@@ -109,5 +108,22 @@ public class SortChannelsByData {
             channels[i] = channelsResponses[i].items.get(0);
         }
         return channels;
+    }
+
+    // очищаємо Output box
+    private void clearOutputVBox(){
+        if (outputVBox != null){
+            outputVBox.getChildren().clear();
+            drawOutputTitle(outputVBox);
+        }
+    }
+
+    // малюєм назву Output box
+    private void drawOutputTitle(VBox outputVBox){
+        Text outputTitle = new Text("Output");
+        outputTitle.setTranslateX(10);
+        outputTitle.setTranslateY(10);
+        outputTitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 14));
+        outputVBox.getChildren().add(outputTitle);
     }
 }

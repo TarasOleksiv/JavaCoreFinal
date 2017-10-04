@@ -84,7 +84,6 @@ public class HTTPRequestChannelComments {
         } else {
             String json;
             json = fileUtils.readFromFile(getJSONPath(channelid));
-            //result = JSON.parseObject(json,ChannelsResponse.class);
             result = (int)JSON.parse(json);
         }
 
