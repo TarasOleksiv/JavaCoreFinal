@@ -1,7 +1,6 @@
 package ua.goit.java8.project5.youtube.entities.channels;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import ua.goit.java8.project5.youtube.entities.channels.Channel;
 
 import java.util.List;
 
@@ -18,10 +17,19 @@ import java.util.List;
             4.	Кол-во видео на канале - statistics.videoCount - unsigned long. The number of videos uploaded to the channel.
             5.	Кол-во просмотров всех видео - statistics.viewCount - unsigned long. The number of times the channel has been viewed.
             6.	Кол-во комментариев - statistics.commentCount - unsigned long. The number of comments for the channel.
-            invideoPromotion.items[].id.videoId - string
 */
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ChannelsResponse {
+    PageInfo pageInfo;
+    public String nextPageToken;
     public List<Channel> items;
+
+    public PageInfo getPageInfo() {
+        return pageInfo;
+    }
+
+    public void setPageInfo(PageInfo pageInfo) {
+        this.pageInfo = pageInfo;
+    }
 }

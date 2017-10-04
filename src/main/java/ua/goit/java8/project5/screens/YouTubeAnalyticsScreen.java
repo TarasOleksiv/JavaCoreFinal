@@ -15,6 +15,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import ua.goit.java8.project5.reports.CompareGlobalChannelInfo;
 import ua.goit.java8.project5.reports.GlobalChannelInfo;
+import ua.goit.java8.project5.reports.MediaResonance;
 import ua.goit.java8.project5.reports.SortChannelsByData;
 
 
@@ -165,7 +166,9 @@ public class YouTubeAnalyticsScreen {
                 //sortChannelsByData();
                 break;
             case 3:
-                showMediaResonance();
+                MediaResonance mediaResonance = new MediaResonance(inputVBox,outputVBox,execute,back);
+                mediaResonance.show();
+                //showMediaResonance();
                 break;
             case 4:
                 compareMediaResonance();

@@ -20,7 +20,6 @@ public class HTTPRequest {
 
     // отримання результатів запиту через HTTP
     public ChannelsResponse getHTTPResponse(String id) throws UnirestException {
-        //id = "UC_x5XG1OV2P6uZZ5FSM9Ttw";
         HttpResponse<ChannelsResponse> response = Unirest.get(SEARCH_LINK)
                 .queryString("part", "snippet,statistics")
                 .queryString("id", id)
