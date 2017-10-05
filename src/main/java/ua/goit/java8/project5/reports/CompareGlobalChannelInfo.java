@@ -33,6 +33,9 @@ public class CompareGlobalChannelInfo extends GlobalChannelInfo {
         HBox channelId1 = new HBox();
         channelId1.setSpacing(10);
 
+        Label lblTitle = new Label("Compare Global Channel Info");
+        lblTitle.setFont(Font.font("Verdana", FontWeight.BOLD, FontPosture.ITALIC,12));
+
         Label lblChannelId1 = new Label("Channel Id #1");
         channelId1.getChildren().add(lblChannelId1);
 
@@ -59,7 +62,7 @@ public class CompareGlobalChannelInfo extends GlobalChannelInfo {
             }).start();
         });
 
-        inputVBox.getChildren().addAll(channelId1, channelId2, run);
+        inputVBox.getChildren().addAll(lblTitle, channelId1, channelId2, run);
     }
 
     private void show2Results(TextField ChannelId1, TextField ChannelId2){

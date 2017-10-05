@@ -39,6 +39,9 @@ public class GlobalChannelInfo {
         HBox channelId = new HBox();
         channelId.setSpacing(10);
 
+        Label lblTitle = new Label("Global Channel Info");
+        lblTitle.setFont(Font.font("Verdana", FontWeight.BOLD, FontPosture.ITALIC,12));
+
         Label lblChannelId = new Label("Channel Id");
         channelId.getChildren().add(lblChannelId);
 
@@ -54,7 +57,7 @@ public class GlobalChannelInfo {
             }).start();
         });
 
-        inputVBox.getChildren().addAll(channelId, run);
+        inputVBox.getChildren().addAll(lblTitle, channelId, run);
     }
 
 

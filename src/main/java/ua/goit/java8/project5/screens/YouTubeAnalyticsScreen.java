@@ -22,7 +22,7 @@ import ua.goit.java8.project5.reports.*;
 
 // Екран вибору та запуску завдань
 public class YouTubeAnalyticsScreen {
-    public static final int WIDTH = 1400;
+    public static final int WIDTH = 1500;
     public static final int HEIGHT = 700;
     private VBox inputVBox;
     private VBox outputVBox;
@@ -87,7 +87,7 @@ public class YouTubeAnalyticsScreen {
         root.getChildren().add(back);
 
         // кнопка Execute
-        execute = new Button("Start");
+        execute = new Button("Show Input");
         execute.setTranslateX(20);
         execute.setTranslateY(140);
         execute.setPrefWidth(100);
@@ -126,7 +126,7 @@ public class YouTubeAnalyticsScreen {
         outputVBox = new VBox();
         outputVBox.setTranslateX(450);
         outputVBox.setTranslateY(90);
-        outputVBox.setPrefWidth(900);
+        outputVBox.setPrefWidth(1000);
         outputVBox.setPrefHeight(510);
         outputVBox.setSpacing(10);
         outputVBox.setStyle("-fx-padding: 10;" +
@@ -145,33 +145,28 @@ public class YouTubeAnalyticsScreen {
     public void executeAction(int choice){
         clearInputVBox();
         clearOutputVBox();
+        //SortChannelsByData sortChannelsByData;
         switch (choice){
             case 0:
-                GlobalChannelInfo globalChannelInfo = new GlobalChannelInfo(inputVBox,outputVBox,execute,back);
-                globalChannelInfo.show();
+                new GlobalChannelInfo(inputVBox,outputVBox,execute,back).show();
                 break;
             case 1:
-                CompareGlobalChannelInfo compareGlobalChannelInfo = new CompareGlobalChannelInfo(inputVBox,outputVBox,execute,back);
-                compareGlobalChannelInfo.show();
+                new CompareGlobalChannelInfo(inputVBox,outputVBox,execute,back).show();
                 break;
             case 2:
-                SortChannelsByData sortChannelsByData = new SortChannelsByData(inputVBox,outputVBox);
-                sortChannelsByData.show();
+                new SortChannelsByData(inputVBox,outputVBox,false).show();
                 break;
             case 3:
-                MediaResonance mediaResonance = new MediaResonance(inputVBox,outputVBox,execute,back);
-                mediaResonance.show();
+                new MediaResonance(inputVBox,outputVBox,execute,back).show();
                 break;
             case 4:
-                CompareMediaResonance compareMediaResonance = new CompareMediaResonance(inputVBox,outputVBox,execute,back);
-                compareMediaResonance.show();
+                new CompareMediaResonance(inputVBox,outputVBox,execute,back).show();
                 break;
             case 5:
-
+                new SortChannelsByData(inputVBox,outputVBox,true).show();
                 break;
             default:
-                globalChannelInfo = new GlobalChannelInfo(inputVBox,outputVBox,execute,back);
-                globalChannelInfo.show();
+                new GlobalChannelInfo(inputVBox,outputVBox,execute,back).show();
                 break;
         }
     }

@@ -22,59 +22,71 @@ import java.util.Date;
 public class TableViewChannelInfo {
     private Channel[] channels;
     private VBox outputVBox;
+    private Boolean showCommentsCount;  // ідентифікує показувати коменти чи ні
 
-    public TableViewChannelInfo(Channel[] channels, VBox outputVBox){
+    public TableViewChannelInfo(Channel[] channels, VBox outputVBox, Boolean showCommentsCount){
         this.channels = channels;
         this.outputVBox = outputVBox;
+        this.showCommentsCount = showCommentsCount;
     }
 
     public void show(long startTime){
 
-        TableView<ChannelIn> table = new TableView<ChannelIn>();
+        TableView<ChannelSimple> table = new TableView<ChannelSimple>();
 
         // Create column id (Data type of String).
-        TableColumn<ChannelIn, String> idCol //
-                = new TableColumn<ChannelIn, String>("Channel Id");
+        TableColumn<ChannelSimple, String> idCol //
+                = new TableColumn<ChannelSimple, String>("Channel Id");
 
         // Create column title (Data type of String).
-        TableColumn<ChannelIn, String> titleCol //
-                = new TableColumn<ChannelIn, String>("Channel Title");
+        TableColumn<ChannelSimple, String> titleCol //
+                = new TableColumn<ChannelSimple, String>("Channel Title");
 
         // Create column publishedAt (Data type of Date).
-        TableColumn<ChannelIn, Date> publishedAtCol//
-                = new TableColumn<ChannelIn, Date>("Published At");
+        TableColumn<ChannelSimple, Date> publishedAtCol//
+                = new TableColumn<ChannelSimple, Date>("Published At");
 
         // Create column subscriberCount (Data type of Long).
-        TableColumn<ChannelIn, Long> subscriberCountCol//
-                = new TableColumn<ChannelIn, Long>("Subscribers Count");
+        TableColumn<ChannelSimple, Long> subscriberCountCol//
+                = new TableColumn<ChannelSimple, Long>("Subscribers Count");
 
         // Create column videoCount (Long).
-        TableColumn<ChannelIn, Long> videoCountCol//
-                = new TableColumn<ChannelIn, Long>("Video Count");
+        TableColumn<ChannelSimple, Long> videoCountCol//
+                = new TableColumn<ChannelSimple, Long>("Video Count");
 
         // Create column viewCount (Long).
-        TableColumn<ChannelIn, Long> viewCountCol //
-                = new TableColumn<ChannelIn, Long>("View Count");
-
+        TableColumn<ChannelSimple, Long> viewCountCol //
+                = new TableColumn<ChannelSimple, Long>("View Count");
 
         // Defines how to fill data for each cell.
-        // Get value from property of ChannelIn. .
-        idCol.setCellValueFactory(new PropertyValueFactory<ChannelIn, String>("id"));
-        titleCol.setCellValueFactory(new PropertyValueFactory<ChannelIn, String>("title"));
-        publishedAtCol.setCellValueFactory(new PropertyValueFactory<ChannelIn, Date>("publishedAt"));
-        subscriberCountCol.setCellValueFactory(new PropertyValueFactory<ChannelIn, Long>("subscriberCount"));
-        videoCountCol.setCellValueFactory(new PropertyValueFactory<ChannelIn, Long>("videoCount"));
-        viewCountCol.setCellValueFactory(new PropertyValueFactory<ChannelIn, Long>("viewCount"));
+        // Get value from property of ChannelSimple. .
+        idCol.setCellValueFactory(new PropertyValueFactory<ChannelSimple, String>("id"));
+        titleCol.setCellValueFactory(new PropertyValueFactory<ChannelSimple, String>("title"));
+        publishedAtCol.setCellValueFactory(new PropertyValueFactory<ChannelSimple, Date>("publishedAt"));
+        subscriberCountCol.setCellValueFactory(new PropertyValueFactory<ChannelSimple, Long>("subscriberCount"));
+        videoCountCol.setCellValueFactory(new PropertyValueFactory<ChannelSimple, Long>("videoCount"));
+        viewCountCol.setCellValueFactory(new PropertyValueFactory<ChannelSimple, Long>("viewCount"));
 
         // Display row data
-        ObservableList<ChannelIn> list = getChannelList();
+        ObservableList<ChannelSimple> list = getChannelList();
 
         table.getColumns().addAll(idCol, titleCol, publishedAtCol, subscriberCountCol, videoCountCol, viewCountCol);
+
+        // якщо потрібно показати коменти:
+        if (showCommentsCount){
+            // Create column commentsCount (Long).
+            TableColumn<ChannelSimple, Long> commentsCountCol //
+                    = new TableColumn<ChannelSimple, Long>("Comments Count");
+            commentsCountCol.setCellValueFactory(new PropertyValueFactory<ChannelSimple, Long>("commentsCount"));
+            table.getColumns().add(commentsCountCol);
+        }
+
+        // заповнюєм таблицю
         table.setItems(list);
 
         Label gap1 = new Label();
         Label gap2 = new Label();
-        Label lblTitle = new Label("Sort Channels By Data");
+        Label lblTitle = new Label(showCommentsCount?"Sort Channels By Media Resonance":"Sort Channels By Data");
         lblTitle.setFont(Font.font("Verdana", FontWeight.BOLD, FontPosture.ITALIC, 12));
         outputVBox.getChildren().addAll(gap1, lblTitle, gap2, table);
 
@@ -87,32 +99,41 @@ public class TableViewChannelInfo {
         }
     }
 
-
     // отримуєм list для заповнення клітинок таблиці
-    private ObservableList<ChannelIn> getChannelList() {
-        ObservableList<ChannelIn> list = FXCollections.observableArrayList();
+    private ObservableList<ChannelSimple> getChannelList() {
+        ObservableList<ChannelSimple> list = FXCollections.observableArrayList();
         for (Channel channel:channels) {
-            ChannelIn channelIn = new ChannelIn(channel.id,
-                                                channel.snippet.title,
-                                                channel.snippet.publishedAt,
-                                                channel.statistics.subscriberCount,
-                                                channel.statistics.videoCount,
-                                                channel.statistics.viewCount);
-            list.add(channelIn);
+            ChannelSimple channelSimple = (showCommentsCount?
+                    new ChannelSimple(channel.id,
+                            channel.snippet.title,
+                            channel.snippet.publishedAt,
+                            channel.statistics.subscriberCount,
+                            channel.statistics.videoCount,
+                            channel.statistics.viewCount,
+                            channel.commentsCount):
+                    new ChannelSimple(channel.id,
+                            channel.snippet.title,
+                            channel.snippet.publishedAt,
+                            channel.statistics.subscriberCount,
+                            channel.statistics.videoCount,
+                            channel.statistics.viewCount)
+            );
+            list.add(channelSimple);
         }
         return list;
     }
 
     // допоміжний клас каналів для виводу у TableView
-    public class ChannelIn {
+    public class ChannelSimple {
         private String id;
         private String title;
         private Date publishedAt;
         private Long subscriberCount;
         private Long videoCount;
         private Long viewCount;
+        private Long commentsCount;
 
-        public ChannelIn(String id, String title, Date publishedAt, Long subscriberCount, Long videoCount, Long viewCount){
+        public ChannelSimple(String id, String title, Date publishedAt, Long subscriberCount, Long videoCount, Long viewCount){
             this.id = id;
             this.title = title;
             this.publishedAt = publishedAt;
@@ -121,12 +142,18 @@ public class TableViewChannelInfo {
             this.viewCount = viewCount;
         }
 
+        public ChannelSimple(String id, String title, Date publishedAt, Long subscriberCount, Long videoCount, Long viewCount, Long commentsCount){
+            this(id,title,publishedAt,subscriberCount,videoCount,viewCount);
+            this.commentsCount = commentsCount;
+        }
+
         public String getId(){return id;}
         public String getTitle(){return title;}
         public Date getPublishedAt(){return publishedAt;}
         public Long getSubscriberCount(){return subscriberCount;}
         public Long getVideoCount(){return videoCount;}
         public Long getViewCount(){return viewCount;}
+        public Long getCommentsCount(){return commentsCount;}
 
         public void setId(String id) {
             this.id = id;
@@ -151,5 +178,7 @@ public class TableViewChannelInfo {
         public void setViewCount(Long viewCount) {
             this.viewCount = viewCount;
         }
+
+        public void setCommentsCount(Long commentsCount){this.commentsCount = commentsCount;}
     }
 }

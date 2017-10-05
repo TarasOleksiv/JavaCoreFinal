@@ -33,6 +33,9 @@ public class CompareMediaResonance extends MediaResonance {
         HBox channelId1 = new HBox();
         channelId1.setSpacing(10);
 
+        Label lblTitle = new Label("Compare Media Resonance Info");
+        lblTitle.setFont(Font.font("Verdana", FontWeight.BOLD, FontPosture.ITALIC,12));
+
         Label lblChannelId1 = new Label("Channel Id #1");
         channelId1.getChildren().add(lblChannelId1);
 
@@ -55,10 +58,10 @@ public class CompareMediaResonance extends MediaResonance {
             // запускаєм запит
             new Thread(()->{
                 show2Results(textChannelId1,textChannelId2);
-                }).start();
+            }).start();
         });
 
-        inputVBox.getChildren().addAll(channelId1, channelId2, run);
+        inputVBox.getChildren().addAll(lblTitle, channelId1, channelId2, run);
     }
 
     private void show2Results(TextField ChannelId1, TextField ChannelId2){

@@ -36,6 +36,9 @@ public class MediaResonance {
         HBox channelId = new HBox();
         channelId.setSpacing(10);
 
+        Label lblTitle = new Label("Media Resonance Info");
+        lblTitle.setFont(Font.font("Verdana", FontWeight.BOLD, FontPosture.ITALIC,12));
+
         Label lblChannelId = new Label("Channel Id");
         channelId.getChildren().add(lblChannelId);
 
@@ -51,7 +54,7 @@ public class MediaResonance {
             }).start();
         });
 
-        inputVBox.getChildren().addAll(channelId, run);
+        inputVBox.getChildren().addAll(lblTitle, channelId, run);
     }
 
     // виводимо результати запиту в Output box

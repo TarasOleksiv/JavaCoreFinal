@@ -7,6 +7,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import ua.goit.java8.project5.Main;
@@ -22,6 +23,7 @@ public class SortChannelsByData {
     private VBox inputVBox;
     private VBox outputVBox;
     private Button run;
+    private Boolean showCommentsCount;  // ідентифікатор показувати коменти чи ні
 
     private static final String INPUT_CHANNEL_ARRAY =
                     "UC_x5XG1OV2P6uZZ5FSM9Ttw" + "\n"
@@ -35,13 +37,17 @@ public class SortChannelsByData {
                     + "UCpvg0uZH-oxmCagOWJo9p9g" + "\n"
                     + "UC2EU93iTrieTLeYdIO0uF7g" + "\n";
 
-    public SortChannelsByData(VBox inputVBox, VBox outputVBox){
+    public SortChannelsByData(VBox inputVBox, VBox outputVBox, Boolean showCommentsCount){
         this.inputVBox = inputVBox;
         this.outputVBox = outputVBox;
+        this.showCommentsCount = showCommentsCount;
     }
 
     // заповнюєм елементами Input box
     public void show(){
+
+        Label lblTitle = new Label(showCommentsCount?"Sort Channels By Media Resonance":"Sort Channels By Data");
+        lblTitle.setFont(Font.font("Verdana", FontWeight.BOLD, FontPosture.ITALIC, 12));
 
         Label lblChannelId = new Label("Channel Ids");
 
@@ -56,7 +62,7 @@ public class SortChannelsByData {
             new Thread(()->{
                 // виводимо результат в окреме вікно з допомогою елемента TableView
                 long startTime = System.currentTimeMillis();
-                TableViewChannelInfo tableViewChannelInfo = new TableViewChannelInfo(getChannels(getChannelsResponses(txtChannelsArray.getText())),outputVBox);
+                TableViewChannelInfo tableViewChannelInfo = new TableViewChannelInfo(getChannels(getChannelsResponses(txtChannelsArray.getText())),outputVBox,showCommentsCount);
                 Platform.runLater(()-> {
                     clearOutputVBox();
                     tableViewChannelInfo.show(startTime);
@@ -64,7 +70,7 @@ public class SortChannelsByData {
             }).start();
         });
 
-        inputVBox.getChildren().addAll(lblChannelId, txtChannelsArray, run);
+        inputVBox.getChildren().addAll(lblTitle, lblChannelId, txtChannelsArray, run);
     }
 
     // отримуєм масив id каналів з вікна вводу
@@ -79,10 +85,16 @@ public class SortChannelsByData {
         String[] channelsArray = getChannelsArray(string);
         ChannelsResponse[] channelsResponses = new ChannelsResponse[channelsArray.length];
         HTTPRequest httpRequest = new HTTPRequest();
+        HTTPRequestChannelComments httpRequestChannelComments = new HTTPRequestChannelComments();
+        long commentsCount;
         for (int i = 0; i < channelsResponses.length; i++){
             if (Main.settingsSet.getUseCache()){
                 try {
                     channelsResponses[i] = httpRequest.getJSONResponse(channelsArray[i]);
+                    if (showCommentsCount){
+                        commentsCount = httpRequestChannelComments.startFromJSON(channelsArray[i]);
+                        channelsResponses[i].items.get(0).commentsCount = commentsCount;
+                    }
                 } catch (UnirestException e) {
                     e.printStackTrace();
                 } catch (IOException e) {
@@ -91,7 +103,10 @@ public class SortChannelsByData {
             } else {
                 try {
                     channelsResponses[i] = httpRequest.getHTTPResponse(channelsArray[i]);
-
+                    if (showCommentsCount){
+                        commentsCount = httpRequestChannelComments.start(channelsArray[i]);
+                        channelsResponses[i].items.get(0).commentsCount = commentsCount;
+                    }
                 } catch (UnirestException e) {
                     e.printStackTrace();
                 }
