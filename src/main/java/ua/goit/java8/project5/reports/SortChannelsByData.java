@@ -15,6 +15,9 @@ import ua.goit.java8.project5.youtube.entities.channels.Channel;
 import ua.goit.java8.project5.youtube.entities.channels.ChannelsResponse;
 
 import java.io.IOException;
+import java.util.Arrays;
+
+import static javafx.scene.input.KeyCode.T;
 
 /**
  * Created by t.oleksiv on 03/10/2017.
@@ -62,7 +65,8 @@ public class SortChannelsByData {
             new Thread(()->{
                 // виводимо результат в окреме вікно з допомогою елемента TableView
                 long startTime = System.currentTimeMillis();
-                TableViewChannelInfo tableViewChannelInfo = new TableViewChannelInfo(getChannels(getChannelsResponses(txtChannelsArray.getText())),outputVBox,showCommentsCount);
+                TableViewChannelInfo tableViewChannelInfo = new TableViewChannelInfo(clearNulls(getChannels(getChannelsResponses(txtChannelsArray.getText()))),
+                                                                                        outputVBox,showCommentsCount);
                 Platform.runLater(()-> {
                     clearOutputVBox();
                     tableViewChannelInfo.show(startTime);
@@ -91,7 +95,7 @@ public class SortChannelsByData {
             if (Main.settingsSet.getUseCache()){
                 try {
                     channelsResponses[i] = httpRequest.getJSONResponse(channelsArray[i]);
-                    if (showCommentsCount){
+                    if (showCommentsCount && channelsResponses[i].items.size()>0){
                         commentsCount = httpRequestChannelComments.startFromJSON(channelsArray[i]);
                         channelsResponses[i].items.get(0).commentsCount = commentsCount;
                     }
@@ -103,7 +107,7 @@ public class SortChannelsByData {
             } else {
                 try {
                     channelsResponses[i] = httpRequest.getHTTPResponse(channelsArray[i]);
-                    if (showCommentsCount){
+                    if (showCommentsCount && channelsResponses[i].items.size()>0){
                         commentsCount = httpRequestChannelComments.start(channelsArray[i]);
                         channelsResponses[i].items.get(0).commentsCount = commentsCount;
                     }
@@ -120,9 +124,27 @@ public class SortChannelsByData {
     private Channel[] getChannels(ChannelsResponse[] channelsResponses){
         Channel[] channels = new Channel[channelsResponses.length];
         for (int i = 0; i < channels.length; i++){
-            channels[i] = channelsResponses[i].items.get(0);
+            channels[i] = (channelsResponses[i].items.size()>0?channelsResponses[i].items.get(0):null);
         }
         return channels;
+    }
+
+    // очистка масиву від null
+    private Channel[] clearNulls(Channel[] channels){
+        int j = 0;
+        for (int i = 0; i < channels.length; i++){
+            if (channels[i] == null){
+                j++;
+            }
+        }
+        Channel[] result = new Channel[channels.length - j];
+        j = 0;
+        for (int i = 0; i < channels.length; i++){
+            if (channels[i] != null){
+                result[j++] = channels[i];
+            }
+        }
+        return result;
     }
 
     // очищаємо Output box
