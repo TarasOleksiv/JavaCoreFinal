@@ -38,7 +38,7 @@ public class Main extends Application {
     public static void main(String[] args) {
         String json = null;
         try {
-            Key.store();
+            //Key.store();
             // завантажуєм ключ з файлу
             Key.load();
             json = FileUtils.readFromFile(PATH_TO_SETTINGS);
