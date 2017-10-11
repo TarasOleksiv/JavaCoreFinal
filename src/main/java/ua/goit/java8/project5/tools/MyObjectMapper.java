@@ -1,4 +1,4 @@
-package ua.goit.java8.project5.extra;
+package ua.goit.java8.project5.tools;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.mashape.unirest.http.ObjectMapper;

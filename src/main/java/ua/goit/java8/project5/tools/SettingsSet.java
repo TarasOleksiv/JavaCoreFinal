@@ -1,4 +1,4 @@
-package ua.goit.java8.project5.extra;
+package ua.goit.java8.project5.tools;
 
 /**
  * Created by t.oleksiv on 27/09/2017.

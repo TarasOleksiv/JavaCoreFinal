@@ -5,7 +5,8 @@ import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import ua.goit.java8.project5.Main;
-import ua.goit.java8.project5.extra.FileUtils;
+import ua.goit.java8.project5.tools.FileUtils;
+import ua.goit.java8.project5.tools.Key;
 import ua.goit.java8.project5.youtube.entities.channels.ChannelsResponse;
 
 import java.io.IOException;
@@ -15,7 +16,8 @@ import java.io.IOException;
  */
 public class HTTPRequest {
     private static final String SEARCH_LINK = "https://www.googleapis.com/youtube/v3/channels";
-    private static final String MY_KEY = "AIzaSyDwu_AH-9_PNHCKIiIzJ-uqXGwNWOfAURw";
+    // ключ вантажимо з файлу
+    //private static final String MY_KEY = "AIzaSyDwu_AH-9_PNHCKIiIzJ-uqXGwNWOfAURw";
     private FileUtils fileUtils = new FileUtils();
 
     // отримання результатів запиту через HTTP
@@ -23,7 +25,7 @@ public class HTTPRequest {
         HttpResponse<ChannelsResponse> response = Unirest.get(SEARCH_LINK)
                 .queryString("part", "snippet,statistics")
                 .queryString("id", id)
-                .queryString("key", MY_KEY)
+                .queryString("key", Key.myKey)
                 .asObject(ChannelsResponse.class);
         ChannelsResponse result = response.getBody();
 

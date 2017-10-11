@@ -12,7 +12,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontPosture;
 import javafx.scene.text.FontWeight;
 import ua.goit.java8.project5.Main;
-import ua.goit.java8.project5.extra.DateUtils;
+import ua.goit.java8.project5.tools.DateUtils;
 import ua.goit.java8.project5.youtube.entities.channels.ChannelsResponse;
 
 import java.io.IOException;

@@ -63,7 +63,7 @@ public class SortChannelsByData {
         run.setOnMouseClicked(event -> {
             // запускаєм запит
             new Thread(()->{
-                // виводимо результат в окреме вікно з допомогою елемента TableView
+                // виводимо результат в Output box з допомогою елемента TableView
                 long startTime = System.currentTimeMillis();
                 TableViewChannelInfo tableViewChannelInfo = new TableViewChannelInfo(clearNulls(getChannels(getChannelsResponses(txtChannelsArray.getText()))),
                                                                                         outputVBox,showCommentsCount);

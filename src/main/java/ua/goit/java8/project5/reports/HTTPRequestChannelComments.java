@@ -5,14 +5,16 @@ import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import ua.goit.java8.project5.Main;
-import ua.goit.java8.project5.extra.FileUtils;
+import ua.goit.java8.project5.tools.FileUtils;
+import ua.goit.java8.project5.tools.Key;
 import ua.goit.java8.project5.youtube.entities.channels.ChannelsResponse;
 
 import java.io.IOException;
 
 public class HTTPRequestChannelComments {
     private static final String SEARCH_LINK = "https://www.googleapis.com/youtube/v3/commentThreads";
-    private static final String MY_KEY = "AIzaSyDwu_AH-9_PNHCKIiIzJ-uqXGwNWOfAURw";
+    // ключ вантажимо з файлу
+    //private static final String MY_KEY = "AIzaSyDwu_AH-9_PNHCKIiIzJ-uqXGwNWOfAURw";
     private static int countOfAllComments;
     private FileUtils fileUtils = new FileUtils();
 
@@ -25,13 +27,13 @@ public class HTTPRequestChannelComments {
                     .queryString("part", "snippet,replies")
                     .queryString("allThreadsRelatedToChannelId", channelid)
                     .queryString("maxResults", "100")
-                    .queryString("key", MY_KEY)
+                    .queryString("key", Key.myKey)
                     .asObject(ChannelsResponse.class);
 
             countOfAllComments = countOfAllComments + response.getBody().getPageInfo().getTotalResults();
 
             if (response.getBody().getPageInfo().getTotalResults() >= 100) {
-                Magic(response.getBody().nextPageToken,channelid);
+                readPages(response.getBody().nextPageToken,channelid);
             }
 
             // якщо в налаштуваннях увімкнуто опцію використання кешу, то
@@ -54,14 +56,14 @@ public class HTTPRequestChannelComments {
         return -1;
     }
 
-    private static void Magic(String nextPageToken,String channelid) throws UnirestException {
+    private static void readPages(String nextPageToken, String channelid) throws UnirestException {
 
         HttpResponse<ChannelsResponse> response = Unirest.get(SEARCH_LINK)
                 .queryString("part", "snippet,replies")
                 .queryString("pageToken", nextPageToken)
                 .queryString("allThreadsRelatedToChannelId",channelid)
                 .queryString("maxResults", "100")
-                .queryString("key", MY_KEY)
+                .queryString("key", Key.myKey)
                 .asObject(ChannelsResponse.class);
 
 
@@ -70,7 +72,7 @@ public class HTTPRequestChannelComments {
         if (response.getBody().getPageInfo().getTotalResults() < 100) {
             return;
         } else {
-            Magic(response.getBody().nextPageToken,channelid);
+            readPages(response.getBody().nextPageToken,channelid);
         }
     }
 

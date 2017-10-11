@@ -13,9 +13,10 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import ua.goit.java8.project5.extra.FileUtils;
-import ua.goit.java8.project5.extra.MyObjectMapper;
-import ua.goit.java8.project5.extra.SettingsSet;
+import ua.goit.java8.project5.tools.FileUtils;
+import ua.goit.java8.project5.tools.Key;
+import ua.goit.java8.project5.tools.MyObjectMapper;
+import ua.goit.java8.project5.tools.SettingsSet;
 import ua.goit.java8.project5.screens.SettingsScreen;
 import ua.goit.java8.project5.screens.YouTubeAnalyticsScreen;
 
@@ -37,6 +38,9 @@ public class Main extends Application {
     public static void main(String[] args) {
         String json = null;
         try {
+            Key.store();
+            // завантажуєм ключ з файлу
+            Key.load();
             json = FileUtils.readFromFile(PATH_TO_SETTINGS);
             settingsSet = JSON.parseObject(json,SettingsSet.class);
         } catch (FileNotFoundException e){
@@ -86,6 +90,7 @@ public class Main extends Application {
             // запускаєм нове вікно в модальному виді
             youTubeAnalyticsScreen.show(event);
         });
+        buttonYouTubeAnalytics.setDisable(Key.myKey == null);
 
         HBox hbBtn1 = new HBox(10);
         hbBtn1.setAlignment(Pos.CENTER);
