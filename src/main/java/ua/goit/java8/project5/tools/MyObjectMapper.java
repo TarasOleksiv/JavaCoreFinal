@@ -17,8 +17,8 @@ public class MyObjectMapper {
 
     private void initObjectMapper() {
         Unirest.setObjectMapper(new ObjectMapper() {
-            private com.fasterxml.jackson.databind.ObjectMapper jacksonObjectMapper
-                    = new com.fasterxml.jackson.databind.ObjectMapper();
+            private JacksonObjectMapper jacksonObjectMapper
+                    = new JacksonObjectMapper();
 
             public <T> T readValue(String value, Class<T> valueType) {
                 try {
